@@ -3,7 +3,7 @@ import {Component, OnInit} from '@angular/core';
 @Component({
     selector: 'app-root',
     template: `
-        <h1>test commit</h1>
+        <h1>thu commit moi </h1>
     `
 })
 export class AppComponent implements OnInit {
