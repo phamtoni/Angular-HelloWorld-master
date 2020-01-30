@@ -1,0 +1,23 @@
+.project-overview-wrapper {
+  margin-top: 1rem;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  display: block;
+
+  .project-overview-content {
+    background-color: #ffffff;
+    padding: 5px 5px 5px 15px;
+
+    &.top-border {
+      box-sizing: border-box;
+      border-width: 5px;
+      border-style: solid;
+      border-color: #008ECF;
+      border-left: 0px;
+      border-right: 0px;
+      border-bottom: 0px;
+      border-radius: 0px;
+    }
+  }
+
+}

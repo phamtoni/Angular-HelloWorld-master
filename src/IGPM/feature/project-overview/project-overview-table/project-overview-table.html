@@ -1,0 +1,19 @@
+<div fxLayout="row wrap" fxLayout.md="column" class="project-overview-table-wrapper">
+    <div fxFlex="0 1 calc(100% - 20px)">
+        <div fxLayout="row wrap" fxLayout.md="column" fxLayout.xs="column" fxLayoutGap="20px">
+            <div fxFlex="0 1 calc(100% - 20px)">
+                <div class="text-heading-h4">
+                    Project Overview
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div fxLayout="column" fxFlex="100%">
+        <css-generic-ag-grid
+                [datasource]="datasource"
+                [gridOptions]="gridOptions"
+                [nameOfResults]="nameOfResults"
+        ></css-generic-ag-grid>
+    </div>
+</div>

@@ -1,0 +1,251 @@
+<div class="mat-dialog-inner-container" fxLayout="column">
+    <div class="blur-overlay" *ngIf="(isLoading$ | async ) || (isSaving$ | async)">
+    </div>
+    <div class="loading-indicator"  *ngIf="(isLoading$ | async ) || (isSaving$ | async)">
+        <div class="loading-indicator__loader"></div>
+    </div>
+    <div [ngClass]="{'blur': (isLoading$ | async ) || (isSaving$ | async)}">
+        <div mat-dialog-title>
+            <div class="text-heading-h4 title">
+                <label>Approval</label>
+            </div>
+        </div>
+
+        <mat-dialog-content  class="mat-dialog-body">
+            <div class="mat-dialog-content">
+
+                <div [fxLayout]="isSubproject ? 'column' : 'row wrap'" [fxLayoutGap]="isSubproject ? '40px' : '10px'" fxFlex="100%">
+
+                    <div *ngIf="isSubproject" class="prevApprovalData" fxLayout="column" fxLayoutGap="15px">
+                        <div class="text-label-l1 header">
+                            <label>Previous Approval Data</label>
+                        </div>
+
+                        <div class="reviewComittee" fxLayout="row wrap" fxLayoutGap="10px">
+                            <div class="text-value label" fxFlex="0 0 180px">
+                                <label>Review Committee</label>
+                            </div>
+                            <div class="text-value text-heading-h6 label" fxFlex="0 1 calc(64% - 190px)">
+                                <label>
+                                    {{!!subprojectApproval && !!subprojectApproval.reviewCommittee.reviewCommittee ? subprojectApproval.reviewCommittee.reviewCommittee : "\u2015"}}
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="milestone" fxLayout="row wrap" fxLayoutGap="10px">
+                            <div class="text-value label" fxFlex="0 0 180px">
+                                <label>Milestone</label>
+                            </div>
+                            <div class="text-value text-heading-h6 label" fxFlex="0 1 calc(64% - 190px)">
+                                <label>
+                                    {{!!subprojectApproval && !!subprojectApproval.previousApprovalMilestone ? subprojectApproval.previousApprovalMilestone : "\u2015"}}
+                                </label>
+                            </div>
+                            <mat-checkbox class="checkbox label"  fxFlex [checked]="subprojectApproval ? subprojectApproval.cancelled:false" [disabled]="true">
+                                <div class="text-value">
+                                    <label>Subproject cancelled</label>
+                                </div>
+                            </mat-checkbox>
+                        </div>
+
+                        <div class="approval" fxLayout="row wrap" fxLayoutGap="10px">
+                            <div class="text-value label" fxFlex="0 0 180px">
+                                <label>Approval Date / Approver</label>
+                            </div>
+                            <div class="text-value text-heading-h6 label" fxFlex="0 1 calc(100% - 190px)">
+                                <label>
+                                    {{!!subprojectApproval && !!subprojectApproval.approvalDate ? subprojectApproval.approvalDate.format('DD.MM.YYYY') : "\u2015"}} / {{!!subprojectApproval && subprojectApproval.approver ? subprojectApproval.approver : "\u2015"}}
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="protocolNo" fxLayout="row wrap" fxLayoutGap="10px">
+                            <div class="text-value label" fxFlex="0 0 180px">
+                                <label>Protocol-No</label>
+                            </div>
+                            <div class="text-value text-heading-h6 label" fxFlex="0 1 calc(64% - 190px)">
+                                <label>
+                                    {{!!subprojectApproval && subprojectApproval.protocolNumber != null ? subprojectApproval.protocolNumber : "\u2015"}}
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="comment" fxLayout="row wrap" fxLayoutGap="10px">
+                            <div class="text-value label" fxFlex="0 0 180px">
+                                <label>Comment</label>
+                            </div>
+                            <div class="text-value text-heading-h6 label" fxFlex="0 1 calc(100% - 190px)">
+                                <label>
+                                    {{!!subprojectApproval && !!subprojectApproval.comment ? subprojectApproval.comment : "\u2015"}}
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div  fxFlex="0 1 calc(50% - 20px)" class="currentApprovalData" fxLayout="column" [formGroup]="modelFormGroup">
+                        <div class="text-label-l1 header">
+                            <label>Current Approval Data</label>
+                        </div>
+
+                        <div class="reviewComittee" fxLayout="row wrap"  fxLayoutGap="10px">
+                            <div class="text-value label" fxFlex="0 0 180px">
+                                <label>Review Committee*</label>
+                            </div>
+                            <div fxFlex="0 1 calc(64% - 190px)">
+                                <mat-form-field *ngIf="reviewCommitteeWrapper && reviewCommitteeWrapper.reviewCommittees">
+                                    <mat-select formControlName="reviewComittee">
+                                        <mat-option *ngFor="let comittee of reviewCommitteeWrapper.reviewCommittees" [value]="comittee.reviewCommitteeId">
+                                            {{comittee.reviewCommittee}}
+                                        </mat-option>
+                                    </mat-select>
+
+                                    <mat-error *ngIf="modelFormGroup.controls['reviewComittee'].hasError('required')">
+                                        Required
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                        </div>
+
+                        <div class="milestone" fxLayout="row wrap" fxLayoutGap="10px">
+                            <div class="text-value label inputLabel" fxFlex="0 0 180px">
+                                <label>Milestone*</label>
+                            </div>
+                            <div fxFlex="0 1 calc(64% - 190px)">
+                                <mat-form-field>
+                                    <mat-select formControlName="milestone">
+                                        <mat-option *ngFor="let milestone of milestones" [value]="milestone.milestoneId">
+                                            {{milestone.milestone}}
+                                        </mat-option>
+                                    </mat-select>
+
+                                    <mat-error *ngIf="modelFormGroup.controls['milestone'].hasError('required')">
+                                        Required
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <mat-checkbox fxFlex formControlName="cancelled" class="checkbox label inputLabel">
+                                <div class="text-value">
+                                    <label>{{isSubproject ? 'Subproject cancelled' : 'Project cancelled'}}</label>
+                                </div>
+                            </mat-checkbox>
+                        </div>
+
+                        <div *ngIf="isSubproject" class="lastMilestone" fxLayout="row wrap"  fxLayoutGap="10px">
+                            <div class="text-value label" fxFlex="0 0 180px">
+                                <label>Last Passed Milestone</label>
+                            </div>
+                            <div class="text-value text-heading-h6 label" fxFlex="0 1 calc(64% - 190px)">
+                                <label>
+                                    {{!!subprojectApproval && !!subprojectApproval.milestone.milestone ? subprojectApproval.milestone.milestone : "\u2015"}}
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="approvalDate" fxLayout="row wrap" fxLayoutGap="10px">
+                            <div class="text-value label inputLabel" fxFlex="0 0 180px">
+                                <label>Approval Date*</label>
+                            </div>
+                            <div fxFlex="0 1 calc(64% - 190px)">
+                                <mat-form-field  floatLabel="always" >
+                                    <mat-label></mat-label>
+                                    <input matInput placeholder="DD.MM.YYYY" [matDatepicker]="pickerApprovalDate"
+                                           formControlName="approvalDate" #approvalDateInput [min]="minDate" [max]="maxDate">
+                                    <mat-datepicker-toggle matSuffix [for]="pickerApprovalDate"></mat-datepicker-toggle>
+                                    <mat-datepicker #pickerApprovalDate></mat-datepicker>
+                                    <mat-error *ngIf="modelFormGroup.controls['approvalDate'].invalid && !modelFormGroup.controls['approvalDate'].hasError('matDatepickerMax')">
+                                        {{ !approvalDateInput.value ? 'Required!' : 'Invalid date!'}}
+                                    </mat-error>
+                                    <mat-error *ngIf="modelFormGroup.controls['approvalDate'].hasError('matDatepickerMax')">
+                                        It is not possible to enter a future date.
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                        </div>
+
+                        <div class="protocolNo" fxLayout="row wrap" fxLayoutGap="10px">
+                            <div class="text-value label inputLabel" fxFlex="0 0 180px">
+                                <label>Protocol-No</label>
+                            </div>
+                            <div fxFlex="0 1 calc(64% - 190px)">
+                                <mat-form-field>
+                                    <input [size]="maxProtocolNoLength" [maxlength]="maxProtocolNoLength"  matInput formControlName="protocolNumber">
+                                    <mat-error *ngIf="modelFormGroup.controls['comment'].hasError">
+                                        Protocol-No must be <strong>less than {{maxProtocolNoLength}} characters</strong>
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                        </div>
+
+                        <div class="Comment" fxLayout="row wrap" fxLayoutGap="10px">
+                            <div class="text-value label inputLabel" fxFlex="0 0 180px">
+                                <label>Comment</label>
+                            </div>
+                            <div fxFlex="0 1 calc(100% - 190px)">
+                                <mat-form-field>
+                                    <input [size]="maxCommentLength" [maxlength]="maxCommentLength" matInput formControlName="comment" >
+                                    <mat-error *ngIf="modelFormGroup.controls['comment'].hasError">
+                                        Comment must be <strong>less than {{maxCommentLength}} characters</strong>
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div *ngIf="!isSubproject" fxFlex="0 1 calc(50% - 20px)">
+                        <div fxLayout="row wrap" fxLayoutGap="20px" class="approval-history">
+                            <div class="text-label-l1 header">
+                                <label>Approval History of Linked MCR Subprojects</label>
+                            </div>
+                            <mat-table  [dataSource]="approvalHistory">
+
+                                <!--- Note that these columns can be defined in any order.
+                                      The actual rendered columns are set as a property on the row definition" -->
+
+                                <!-- MCR Subproject-ID Column -->
+                                <ng-container matColumnDef="mcrSubProjectId">
+                                    <mat-header-cell class="mcrSubProjectIdCell"  *matHeaderCellDef > MCR Subproject-ID </mat-header-cell>
+                                    <mat-cell *matCellDef="let element"> {{element.mcrSubProjectId}} </mat-cell>
+                                </ng-container>
+
+                                <!-- Milestone Column -->
+                                <ng-container matColumnDef="milestone">
+                                    <mat-header-cell class="milestoneCell"  *matHeaderCellDef > Milestone </mat-header-cell>
+                                    <mat-cell *matCellDef="let element"> {{element.milestone}} </mat-cell>
+                                </ng-container>
+
+                                <!-- Approval Date Column -->
+                                <ng-container matColumnDef="approvalDate">
+                                    <mat-header-cell class="approvalDateCell"  *matHeaderCellDef > Approval Date </mat-header-cell>
+                                    <mat-cell *matCellDef="let element"> {{element.approvalDate ? element.approvalDate.format('DD.MM.YYYY') : "\u2015"}} </mat-cell>
+                                </ng-container>
+
+                                <!-- Cancelled Column -->
+                                <ng-container matColumnDef="cancelled">
+                                    <mat-header-cell class="cancelledCell"  *matHeaderCellDef > Cancelled </mat-header-cell>
+                                    <mat-cell *matCellDef="let element"> {{element.cancelled ? 'Yes' : 'No'}} </mat-cell>
+                                </ng-container>
+
+                                <mat-header-row  *matHeaderRowDef="approvalHistoryColumns"></mat-header-row>
+                                <mat-row  *matRowDef="let row; columns: approvalHistoryColumns;"></mat-row>
+                            </mat-table>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </mat-dialog-content>
+
+        <mat-dialog-actions>
+            <div class="right-actions" fxFlex="28%" fxShrink="0">
+                <div class="button-actions">
+                    <button class="primary-sm" [disabled]="modelFormGroup.invalid || !canApprove" mat-button (click)="onApprove()">Approve</button>
+                    <button class="secondary-sm" mat-button (click)="onClose()">Close</button>
+                </div>
+            </div>
+        </mat-dialog-actions>
+    </div>
+
+</div>

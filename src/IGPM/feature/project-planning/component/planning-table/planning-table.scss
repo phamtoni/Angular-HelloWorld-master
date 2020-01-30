@@ -1,0 +1,96 @@
+.planning-table-wrapper{
+  .header-cell-l2 {
+    opacity: 0.7;
+    font-weight: 700;
+    font-style: normal;
+    font-size: 14px;
+    color: #8F9091;
+    justify-content: flex-end
+  }
+
+  .header-cell-l1 {
+    border-bottom: 0px solid #bfc0c2 !important;
+    opacity: 0.8;
+    font-weight: 700;
+    font-style: normal;
+    font-size: 14px;
+    color: #000000;
+    justify-content: center;
+  }
+
+  .mat-table .mat-cell, .mat-table .mat-footer-cell  {
+    justify-content: flex-end;
+  }
+
+  .mat-column-year{
+    justify-content: center !important;
+  }
+
+  .mat-column-yearGroup{
+    flex: 0 0 9% !important;
+    justify-content: center !important;
+  }
+
+  .border-right {
+    position: relative;
+  }
+
+  .border-right:after {
+    content: '';
+    height: 80%; //change this if you want smaller/bigger borders
+    width: 1px;
+    position: absolute;
+    right: 0;
+    top: 5px; // set a smaller height and center it, change this value
+    border-right: 1px solid #bfc0c2;
+  }
+
+  .row_expanded {
+    //display: block;
+  }
+
+  .row_collapsed {
+    height: 0px;
+    min-height: 0px;
+    display: none;
+  }
+
+  .lg-padding{
+    padding-right: 1rem;
+  }
+
+  .mat-elevation-z8{
+    box-shadow:unset;
+  }
+
+  /* hide up/down arrows ("spinners") on input fields marked type=number */
+  .no-spinners {
+    -moz-appearance:textfield;
+  }
+
+  .no-spinners::-webkit-outer-spin-button,
+  .no-spinners::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  .currentPAO input[type=text],
+  .currentOTP input[type=text]{
+    text-align: right;
+  }
+
+  .error-icon {
+    color: #E30519;
+    margin-left: 10px;
+  }
+
+  div.mat-form-field-flex .mat-form-field-infix .mat-form-field-label-wrapper .mat-form-field-label
+  {
+    display: none;
+  }
+}
+
+.tooltip-warning {
+  color: #E30519 !important;
+  background-color: #FBD9DC;
+}

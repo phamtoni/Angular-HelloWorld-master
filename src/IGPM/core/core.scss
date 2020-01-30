@@ -1,0 +1,11 @@
+@import "~@igpm/theme/bosch-theme";
+
+.igpm-layout-container:before {
+  display: block;
+}
+
+main {
+  overflow-y: auto;
+  overflow-x: hidden;
+  max-height: calc(100vh - 15px - 64px);
+}

@@ -1,0 +1,80 @@
+@import '~src/assets/styles/corelib-fixes/blur';
+.mat-dialog-inner-container{
+
+  min-width: 35vw;
+
+  .header {
+    opacity: 0.8;
+    font-weight: 700;
+    font-style: normal;
+    font-size: 15px;
+    color: #000000;
+    padding: 10px 0 20px 0;
+  }
+
+  .currentApprovalData, .prevApprovalData, .approval-history {
+    .header{
+      padding: 10px 0 10px 0 !important;
+    }
+  }
+
+  .title {
+    font-weight: bold;
+    margin-top: 15px;
+    opacity: 0.8;
+    font-style: normal;
+    color: #000000;
+  }
+
+  .currentApprovalData {
+    .reviewComittee .label {
+      padding: 20px 0 0 0;
+    }
+
+    .lastMilestone .label {
+      padding: 10px 0 5px 0;
+    }
+
+    .approvalDate .label {
+      margin-top: 23px;
+    }
+  }
+
+  .approval-history {
+    .mcrSubprojectIdCell {
+      padding: 0.75rem 0.5rem;
+      width: 175px;
+    }
+
+    .milestoneCell {
+      padding: 0.75rem 0.5rem;
+    }
+
+    .approvalDateCell {
+      padding: 0.75rem 0.5rem;
+    }
+
+    .cancelledCell {
+      padding: 0.75rem 0.5rem;
+    }
+  }
+
+  .currentApprovalData
+  .inputLabel {
+    margin-top: 24px;
+  }
+
+  .primary-sm,
+  .secondary-sm {
+    min-width: 120px;
+  }
+
+  .button-actions {
+    text-align: right;
+  }
+
+  .disabled-text {
+    font-weight: normal;
+    font-size: 14px
+  }
+}

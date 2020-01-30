@@ -1,0 +1,92 @@
+
+@import '~src/assets/styles/corelib-fixes/blur';
+:host {
+  display: block;
+}
+
+.fixed-content {
+  height: calc(90vh - 1rem);
+  margin-top: 1rem;
+  margin-left: 1rem;
+}
+
+.rocket_button {
+  border: 1px solid darkgray;
+  border-radius: 50%;
+  bottom: 20px;
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  font-size: 22px;
+  height: 30px;
+  justify-content: center;
+  right:45px;
+  text-align: center;
+  transition: all 0.3s ease 0s;
+  width: 30px;
+  text-decoration: none;
+  background-color: #ffffff;
+  position: fixed;
+  z-index: 14;
+  margin-bottom: 30px;
+}
+
+.rocket_button .Bosch-IC-up {
+  color: black;
+}
+
+.rocket_button:hover {
+  background-color: lightgray;
+  cursor: pointer;
+}
+
+.pinned_pannel {
+  position: absolute;
+  top: 64px;
+  width: calc(100% - 127px);
+  max-width: calc(100% - 127px - 2rem);
+  z-index: 14;
+  background-color: rgba(239, 239, 240, 1);
+  min-height: 159px;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+.subprojects-list {
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+
+  .loading-containter {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 15;
+  }
+}
+
+.top-border {
+  box-sizing: border-box;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #00a8b0;
+  border-left: 0px;
+  border-right: 0px;
+  border-bottom: 0px;
+  border-radius: 0px;
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+  border-bottom-left-radius: 0px;
+}
+
+.large-margin {
+  margin-left: 122px;
+}
+
+
+::ng-deep .cdk-overlay-pane .mat-dialog-container .mat-dialog-inner-container {
+  padding: 0 3rem 2rem;
+}

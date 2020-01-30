@@ -1,0 +1,11 @@
+<igpm-layout>
+    <igpm-sidebar [title]="title" [navItems]="navItems">
+        <igpm-header></igpm-header>
+
+        <main #main>
+            <router-outlet></router-outlet>
+        </main>
+
+        <igpm-sidebar-footer [navItems]="sidebarFooterItems"></igpm-sidebar-footer>
+    </igpm-sidebar>
+</igpm-layout>

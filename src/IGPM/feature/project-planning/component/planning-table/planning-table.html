@@ -1,0 +1,185 @@
+<div fxLayout="row" fxLayoutGap="20px" class="planning-table-wrapper">
+    <mat-table [style.width]="isSubprojects && pinned ? '90%': '100%'"  [dataSource]="projectValue" class="mat-elevation-z8">
+
+        <!--- Note that these columns can be defined in any order.
+              The actual rendered columns are set as a property on the row definition" -->
+
+        <!-- Year Column -->
+        <ng-container matColumnDef="year">
+            <mat-header-cell class="year border-right header-cell-l2"  *matHeaderCellDef > </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.year}} </mat-cell>
+            <mat-footer-cell *matFooterCellDef> Total </mat-footer-cell>
+        </ng-container>
+
+        <!-- Current Cost Column -->
+        <ng-container matColumnDef="currentCost">
+            <mat-header-cell class="header-cell-l2" *matHeaderCellDef> Plan(000) </mat-header-cell>
+            <mat-cell class="lg-padding"  *matCellDef="let element"> {{element.currentCost | localeNumber:'1.0-0'}} </mat-cell>
+            <mat-footer-cell class="lg-padding"  *matFooterCellDef> {{getTotalValueOf('currentCost') | localeNumber:'1.0-0'}} </mat-footer-cell>
+        </ng-container>
+
+        <!-- Acutal Cost Column -->
+        <ng-container matColumnDef="actualCost">
+            <mat-header-cell class="border-right header-cell-l2" *matHeaderCellDef> {{comparisonVersion.compName}} </mat-header-cell>
+            <mat-cell class="lg-padding"  *matCellDef="let element"> {{element.actualCost | localeNumber:'1.0-0'}} </mat-cell>
+            <mat-footer-cell class="lg-padding"  *matFooterCellDef> {{getTotalValueOf('actualCost') | localeNumber:'1.0-0'}} </mat-footer-cell>
+        </ng-container>
+
+        <!-- Current OTP Column -->
+        <ng-container matColumnDef="currentOTP" *ngIf="!isSubprojects">
+            <mat-header-cell class="header-cell-l2"  *matHeaderCellDef> Plan(000) </mat-header-cell>
+            <mat-cell class="lg-padding"  *matCellDef="let element">
+                {{element.currentOTP | localeNumber:'1.0-0' }}
+            </mat-cell>
+            <mat-footer-cell class="lg-padding" *matFooterCellDef> {{getTotalValueOf('currentOTP') | localeNumber:'1.0-0' }} </mat-footer-cell>
+        </ng-container>
+
+        <!-- Current OTP Column for subprojects -->
+        <ng-container matColumnDef="currentOTP" *ngIf="isSubprojects">
+            <mat-header-cell class="header-cell-l2"  *matHeaderCellDef> Plan(000) </mat-header-cell>
+            <mat-cell class="lg-padding currentOTP"  *matCellDef="let element">
+        <span *ngIf=!(isFieldWritable(element))>
+           {{element.currentOTP | localeNumber:'1.0-0'}}
+        </span>
+                <mat-form-field [style.width]="element.currentOTPDtl && element.currentOTPDtl.error ? '73%': '100%' " *ngIf=isFieldWritable(element) floatLabel="never">
+                    <input  matInput placeholder="Enter value" type="text"  id="{{subprojectId + '-otp_' + getIndexOfItem(element)}}" maxlength="15" min=0 class="right no-spinners"
+                            [value]=" element.currentOTPDtl && !element.currentOTPDtl.error && element.currentOTP ? (element.currentOTP | localeNumber:'1.0-0') :  element.currentOTP "
+                            (keydown)="onKeydown($event)"
+                            (paste)="otpValuePasted($event,element.year,element.currentOTPDtl,element)"
+                            (change)="otpValueChanged($event,element.year,element.currentOTPDtl,element)"
+                            (blur)="handleBlurEvent($event)"
+                            (keyup)="handleKeyUp($event)" (keypress)="onKeyPress($event)">
+                </mat-form-field>
+                <mat-icon *ngIf="element.currentOTPDtl && element.currentOTPDtl.error"  class="error-icon" matTooltipClass="tooltip-warning" matTooltip="Only whole numbers are accepted for OTP planning.">error</mat-icon>
+            </mat-cell>
+            <mat-footer-cell class="lg-padding" *matFooterCellDef> {{getTotalValueOf('currentOTP') | localeNumber:'1.0-0' }} </mat-footer-cell>
+        </ng-container>
+
+        <!-- Acutal OTP Column -->
+        <ng-container matColumnDef="actualOTP">
+            <mat-header-cell class="border-right header-cell-l2"   *matHeaderCellDef> {{comparisonVersion.compName}} </mat-header-cell>
+            <mat-cell class="lg-padding"  *matCellDef="let element"> {{element.actualOTP | localeNumber:'1.0-0' }} </mat-cell>
+            <mat-footer-cell class="lg-padding" *matFooterCellDef> {{getTotalValueOf('actualOTP') | localeNumber:'1.0-0' }} </mat-footer-cell>
+        </ng-container>
+
+        <!-- Current PAO Column -->
+        <ng-container matColumnDef="currentPAO" *ngIf="!isSubprojects">
+            <mat-header-cell class="header-cell-l2"  *matHeaderCellDef> Plan(000) </mat-header-cell>
+            <mat-cell class="lg-padding"  *matCellDef="let element">
+                {{element.currentPAO | localeNumber:'1.0-0' }}
+            </mat-cell>
+            <mat-footer-cell class="lg-padding" *matFooterCellDef> {{getTotalValueOf('currentPAO') | localeNumber:'1.0-0' }} </mat-footer-cell>
+        </ng-container>
+
+        <!-- Current PAO Column for subprojects -->
+        <ng-container matColumnDef="currentPAO" *ngIf="isSubprojects">
+            <mat-header-cell class="header-cell-l2"  *matHeaderCellDef> Plan(000) </mat-header-cell>
+            <mat-cell class="lg-padding currentPAO"  *matCellDef="let element">
+          <span *ngIf=!(isFieldWritable(element))>
+           {{element.currentPAO | localeNumber:'1.0-0'}}
+         </span>
+                <mat-form-field [style.width]="element.currentPAODtl && element.currentPAODtl.error ? '73%': '100%' " *ngIf=isFieldWritable(element) floatLabel="never">
+                    <input matInput placeholder="Enter value" type="text" id="{{subprojectId + '-pao_' + getIndexOfItem(element)}}"  maxlength="15" min=0
+                           [value]="element.currentPAODtl && !element.currentPAODtl.error && element.currentPAO ? (element.currentPAO | localeNumber:'1.0-0') : element.currentPAO"
+                           (change)="paoValueChanged($event,element.year,element.currentPAODtl,element)"
+                           (paste)="paoValuePasted($event,element.year,element.currentPAODtl,element)"
+                           (keydown)="onKeydown($event)"
+                           (blur)="handleBlurEvent($event)"
+                           (keyup)="handleKeyUp($event)" (keypress)="onKeyPress($event)">
+                </mat-form-field>
+                <mat-icon *ngIf="element.currentPAODtl && element.currentPAODtl.error"  class="error-icon" matTooltipClass="tooltip-warning" matTooltip="Only whole numbers are accepted for PAO planning.">error</mat-icon>
+            </mat-cell>
+            <mat-footer-cell class="lg-padding" *matFooterCellDef> {{getTotalValueOf('currentPAO') | localeNumber:'1.0-0' }} </mat-footer-cell>
+        </ng-container>
+
+        <!-- Acutal Cost Column -->
+        <ng-container matColumnDef="actualPAO">
+            <mat-header-cell class="border-right header-cell-l2"   *matHeaderCellDef> {{comparisonVersion.compName}} </mat-header-cell>
+            <mat-cell class="lg-padding"  *matCellDef="let element"> {{element.actualPAO | localeNumber:'1.0-0' }} </mat-cell>
+            <mat-footer-cell class="lg-padding" *matFooterCellDef> {{getTotalValueOf('actualPAO') | localeNumber:'1.0-0' }} </mat-footer-cell>
+        </ng-container>
+
+        <!-- Current OTP+PAO Column -->
+        <ng-container matColumnDef="currentOTPPAO">
+            <mat-header-cell class="header-cell-l2"  *matHeaderCellDef> Plan(000) </mat-header-cell>
+            <mat-cell class="lg-padding"  *matCellDef="let element"> {{ getCurrentOTPPAOSum(element) != null ? (getCurrentOTPPAOSum(element) | localeNumber:'1.0-0' ): null }} </mat-cell>
+            <mat-footer-cell class="lg-padding" *matFooterCellDef> {{getTotalValueOf('currentOTPPAO') | localeNumber:'1.0-0' }} </mat-footer-cell>
+        </ng-container>
+
+        <!-- Acutal OTP+PAO Column -->
+        <ng-container matColumnDef="actualOTPPAO">
+            <mat-header-cell class="border-right header-cell-l2"   *matHeaderCellDef> {{comparisonVersion.compName}} </mat-header-cell>
+            <mat-cell class="lg-padding"  *matCellDef="let element"> {{ element.actualOTP || element.actualPAO ? ( ( (element.actualOTP ? element.actualOTP : 0)  + (element.actualPAO ? element.actualPAO : 0) ) | localeNumber:'1.0-0' ) : null }} </mat-cell>
+            <mat-footer-cell class="lg-padding" *matFooterCellDef> {{getTotalValueOf('actualOTPPAO') | localeNumber:'1.0-0' }} </mat-footer-cell>
+        </ng-container>
+
+        <!-- Current CSS Column -->
+        <ng-container matColumnDef="currentCSS">
+            <mat-header-cell class="header-cell-l2"  *matHeaderCellDef> Plan(000) </mat-header-cell>
+            <mat-cell class="lg-padding"  *matCellDef="let element"> {{getCurrentCSS(element)  | localePercent }} </mat-cell>
+            <mat-footer-cell class="lg-padding" *matFooterCellDef> {{getTotalPercentValueOf('currentOTPPAO','currentCost') | localePercent }} </mat-footer-cell>
+        </ng-container>
+
+        <!-- Acutal CSS Column -->
+        <ng-container matColumnDef="actualCSS">
+            <mat-header-cell class="header-cell-l2"  *matHeaderCellDef> {{comparisonVersion.compName}} </mat-header-cell>
+            <mat-cell class="lg-padding"  *matCellDef="let element"> {{getAcutualCSS(element) | localePercent }}  </mat-cell>
+            <mat-footer-cell class="lg-padding" *matFooterCellDef> {{getTotalPercentValueOf('actualOTPPAO','actualCost') | localePercent }} </mat-footer-cell>
+        </ng-container>
+
+        <!-- Header row year group -->
+        <ng-container matColumnDef="yearGroup">
+            <mat-header-cell class="header-cell-l1"  *matHeaderCellDef>
+                Year
+            </mat-header-cell>
+        </ng-container>
+
+        <!-- Header row cost group -->
+        <ng-container matColumnDef="cost">
+            <mat-header-cell class="header-cell-l1"  *matHeaderCellDef
+                             [attr.colspan]="2">
+                Cost
+            </mat-header-cell>
+        </ng-container>
+
+        <!-- Header row otp group -->
+        <ng-container matColumnDef="otp">
+            <mat-header-cell class="header-cell-l1"  *matHeaderCellDef
+                             [attr.colspan]="2">
+                OTP
+            </mat-header-cell>
+        </ng-container>
+
+        <!-- Header row pao group -->
+        <ng-container matColumnDef="pao">
+            <mat-header-cell class="header-cell-l1"  *matHeaderCellDef
+                             [attr.colspan]="2">
+                PAO
+            </mat-header-cell>
+        </ng-container>
+
+        <!-- Header row otp+pao group -->
+        <ng-container matColumnDef="otp-pao">
+            <mat-header-cell class="header-cell-l1"  *matHeaderCellDef
+                             [attr.colspan]="2">
+                OTP+PAO
+            </mat-header-cell>
+        </ng-container>
+
+        <!-- Header row css group -->
+        <ng-container matColumnDef="css">
+            <mat-header-cell class="header-cell-l1"  *matHeaderCellDef
+                             [attr.colspan]="2">
+                CSS
+            </mat-header-cell>
+        </ng-container>
+
+
+        <mat-header-row  *matHeaderRowDef="displayedGroup"></mat-header-row>
+        <mat-header-row  *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row  *matRowDef="let row; columns: displayedColumns;"
+                  [ngClass]="detailValueVisible == true ? 'row_expanded': 'row_collapsed' " ></mat-row>
+
+        <mat-footer-row  *matFooterRowDef="displayedColumns"></mat-footer-row>
+    </mat-table>
+</div>

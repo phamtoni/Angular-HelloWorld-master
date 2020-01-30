@@ -1,0 +1,95 @@
+<div fxLayout="row">
+    <div fxFlex="0 1 100%">
+        <div class="blur-overlay" *ngIf="isProgressStart">
+        </div>
+        <div class="loading-indicator" *ngIf="isProgressStart">
+            <div class="loading-indicator__loader"></div>
+        </div>
+
+        <div [ngClass]="{'blur': isProgressStart}">
+
+            <div class="fixed-content"  fxLayout="column" fxShow [fxShow.xs]="false" fxFlex="0 0 110px">
+                <css-project-navigation
+                    #projectNavigationComponent
+                    [isProgressStart]="(projectNavigationLoading$ | async) || (projectLoading$ | async) || (subprojectsLoading$ | async) "
+                    [selectedItem]="selectedNavItem$ | async"
+                    [projectNavigation]="projectNavigationItems$ | async" class="navigation"
+                    (onNavigationItemSelected)=onNavigationItemSelected($event)>
+
+                </css-project-navigation>
+            </div>
+
+            <div fxLayout="column" fxFlex="0 0 calc(100% - 127px)" fxFlex.xs="100%">
+                <div class="fixed-content">
+                    <css-project #pinnedProjectComponent *ngIf="projectPinned" [ngClass]=" projectPinned ? 'pinned_pannel' : '' " [pinned]="projectPinned"
+                                 [isProgressStart]="(projectLoading$ | async) || (subprojectsLoading$ | async) || (currencyRateLoading$ | async) || (actualDataSumLoading$ | async) "
+                                 [projectData]="project$ | async" [currencies]="currencies$ | async "
+                                 [buttonsAccess]="buttonsVisibility$ | async"
+                                 [buttonsDisabled]="buttonsDisabled$ | async"
+                                 [hasErrors]="subprojectErrors$"
+                                 [projectDiscardState]="projectDiscard$"
+                                 (onProjectErrorEvent)="projectHasError($event)"
+                                 (onDiscardClickedEvent)="discardProjectValue($event)"
+                                 (onSaveClickedEvent)="saveProjectValue($event)"
+                                 (onApprovalClickedEvent)="approveProject($event)"
+                                 [actualDataSumError$]="actualDataSumError$"
+                                 (onProjectDataChanged)="projectDataChanged($event)">
+                    </css-project>
+
+                    <css-project [defaultMinHeight]="167" [paddingTop]="86" [pinned]="false" #projectContent
+                                 [isProgressStart]="(projectLoading$ | async) || (subprojectsLoading$ | async) || (currencyRateLoading$ | async) || (actualDataSumLoading$ | async)"
+                                 [projectData]="project$ | async"  [currencies]="currencies$ | async"
+                                 [buttonsAccess]="buttonsVisibility$ | async"
+                                 [buttonsDisabled]="buttonsDisabled$ | async"
+                                 [actualDataSumError$]="actualDataSumError$"
+                                 [projectDiscardState]="projectDiscard$"
+                                 [hasErrors]="subprojectErrors$"
+                                 (onDiscardClickedEvent)="discardProjectValue($event)"
+                                 (onApprovalClickedEvent)="approveProject($event)"
+                                 (onSaveClickedEvent)="saveProjectValue($event)"
+                                 (onProjectDataChanged)="projectDataChanged($event)"
+                                 (onProjectErrorEvent)="projectHasError($event)">
+                    </css-project>
+
+                    <!-- sub project list -->
+                    <div class="subprojects-list" *ngIf="(subprojectsLoading$ | async)  || (projectLoading$ | async)">
+                        <css-subproject  #subprojectComponent
+                                         [paddingTop]="230" [projectData]="project$ | async"
+                                         (onInputFieldDataChangedEvent)="onInputFieldDataChanged()"
+                                         [yearlyCurrencyRates] = "fullCurrencyRates$ | async"
+                                         [isInVisibleRange]="isInVisibleSubprojectRange(i)"
+                                         [isProgressStart]="(subprojectsLoading$ | async)  || (projectLoading$ | async)"
+                                         *ngFor = "let subproject of allSubprojects;let i = index" [subprojectItem]="subproject" [currencies]="currencies$ | async"
+                                         [pinned]="projectPinned"
+                        ></css-subproject>
+                    </div>
+
+
+                    <ng-container *ngIf="!((subprojectsLoading$ | async)  || (projectLoading$ | async))">
+                        <css-subproject  #subprojectComponent
+                                         [paddingTop]="230" [projectData]="project$ | async"
+                                         (onInputFieldDataChangedEvent)="onInputFieldDataChanged()"
+                                         (onChangeEvent)="subprojectChanged($event)"
+                                         (onCssDataErrorEvent)="cssDataHasError($event)"
+                                         (onSubprojectDataErrorEvent)="subprojectDataHasError($event)"
+                                         (onSubprojectValueChangedEvent)="subprojectValueChanged($event)"
+                                         (onApproveStartedEvent)="subprojectApproveStarted($event)"
+                                         [yearlyCurrencyRates] = "fullCurrencyRates$ | async"
+                                         [forecastExRates] = "forecastExRates$ | async"
+                                         [currencies]="currencies$ | async"
+                                         [isProgressStart]="(subprojectsLoading$ | async)  || (projectLoading$ | async)"
+                                         *ngFor = "let subproject of allSubprojects;let i = index" [subprojectItem]="subproject"
+                                         [isInVisibleRange]="isInVisibleSubprojectRange(i)"
+                                         [approvalPermission]="getApprovalPermission(subproject,project$ | async,approvalPermissions$ | async)"
+                                         [pinned]="projectPinned"
+                        ></css-subproject>
+                    </ng-container>
+
+                </div>
+
+                <a *ngIf="projectPinned && !((subprojectsLoading$ | async)  || (projectLoading$ | async))" class="rocket_button" (click)="navigationOnTop()"><i class="Bosch-IC-up"></i></a>
+            </div>
+
+        </div>
+    </div>
+</div>
