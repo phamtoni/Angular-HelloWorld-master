@@ -3,7 +3,7 @@ import {Component, OnInit} from '@angular/core';
 @Component({
     selector: 'app-root',
     template: `
-        <h1>Hello World to ni dep trai va giau co wa di a</h1>
+        <h1>test commit</h1>
     `
 })
 export class AppComponent implements OnInit {
