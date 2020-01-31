@@ -1,0 +1,136 @@
+.project-filter-wrapper{
+
+  padding-top: 5px;
+  padding-bottom: 2rem;
+
+  .startPAO,
+  .endPAO ,
+  .paoRate,
+  .otpRate,
+  .contractSigning,
+  .contractual-pao,
+  .contractual-otp,
+  .invoice-customer,
+  .special-sale-comp-code,
+  .currency{
+    margin-top: 25px;
+  }
+
+
+
+  .mat-form-field .mat-select {
+    height: 44px;
+  }
+
+  .percent-suffix{
+    width: 100%;
+  }
+
+  .percent-suffix .mat-form-field-suffix {
+    position: relative;
+    padding-top: 11px;
+    padding-right: 5px;
+    background-color: #f7f7f7;
+  }
+
+  .percent-suffix .mat-form-field-flex .mat-form-field-infix input {
+    background-color: #f7f7f7;
+    padding: 12px 8px;
+    text-align: right;
+  }
+
+  .info-icon {
+    font-weight: 400;
+    font-style: normal;
+    font-size: 23px;
+  }
+
+  .info-icon:hover {
+    cursor: pointer;
+    color: #51BFDA;
+  }
+
+  .special-sale-comp-code {
+    min-width: 200px;
+  }
+
+  .startPAO,
+  .endPAO,
+  .startPAO .mat-form-field,
+  .endPAO .mat-form-field {
+    min-width: 8rem;
+    max-width: 8rem;
+  }
+
+  .contractSigning,
+  .contractSigning .mat-form-field{
+    min-width: 8rem;
+    max-width: 8rem;
+  }
+
+  .invoice-customer .text-label,
+  .startPAO .text-label ,
+  .endPAO .text-label,
+  .special-sale-comp-code .text-label,
+  .currency .text-label,
+  .paoRate .text-label,
+  .otpRate .text-label {
+    // See .info-icon font size
+    width: calc(100% - 23px);
+  }
+
+  .contractual-pao .text-label,
+  .contractual-otp .text-label,
+  .contractSigning .text-label{
+    // See .info-icon font size
+    margin-top: -21.5px;
+    width: calc(100% - 23px);
+  }
+
+  .paoRate .mat-form-field , .otpRate .mat-form-field{
+    width: 99px;
+  }
+
+  .contractual-pao .mat-form-field , .contractual-otp .mat-form-field{
+    width: 8rem;
+  }
+
+  currency .text-label {
+    height: 22px
+  }
+
+  /* hide up/down arrows ("spinners") on input fields marked type=number */
+  .no-spinners {
+    -moz-appearance:textfield;
+  }
+
+  .no-spinners::-webkit-outer-spin-button,
+  .no-spinners::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  .disabled-text {
+    font-weight: normal;
+    font-size: 14px;
+    padding-top: 16px;
+  }
+
+  .contractual-pao input[type=text],
+  .contractual-otp input[type=text]{
+    text-align: right;
+  }
+
+  *:focus {
+    outline: none;
+  }
+
+  .mat-form-field-appearance-legacy .mat-form-field-wrapper {
+    margin-top: -10px;
+
+    div.mat-form-field-flex .mat-form-field-infix .mat-form-field-label-wrapper .mat-form-field-label
+    {
+      display: none;
+    }
+  }
+}

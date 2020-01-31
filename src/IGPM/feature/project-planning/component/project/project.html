@@ -1,0 +1,79 @@
+<div>
+    <div #content fxLayout="row wrap" fxLayoutGap="5px" class="project-container  top-border">
+        <div fxFlex="0 1 calc(100% - 10px)">
+
+            <div class="blur-overlay" *ngIf="isProgressStart">
+            </div>
+
+            <div class="loading-indicator" *ngIf="isProgressStart">
+                <div class="loading-indicator__loader"></div>
+            </div>
+            <div [ngClass]="{'blur': isProgressStart}">
+                <css-project-info *ngIf="!pinned" [project]="project" [currencies]="currencies"
+                                  [buttonsAccess]="areButtonsAvailable"
+                                  [buttonsDisabled] = "areButtonsDisabled"
+                                  [approvalButtonDisabled]="isApprovalButtonDisabled"
+                                  [approvalButtonVisible]="isApprovalButtonVisible"
+                                  [hasErrors]="subprojectErrors"
+                                  [comparisonVersion]="project.selectedComparisonVersion"
+                                  (onSaveClickedEvent)="onSaveButtonClicked()"
+                                  (onDiscardClickedEvent)="onDiscardButtonClicked()"
+                                  (onApprovalClickedEvent)="onApprovalButtonClicked()"
+                                  (onComparisonChangedEvent)="onValueChanged($event)"
+                                  (onCurrencyChangedEvent)="onValueChanged($event)"
+                                  [isMonthlyRateMissing]="actualDataSumError$ | async"
+                >
+
+                </css-project-info>
+
+                <!-- content row -->
+                <div fxLayout="row" fxLayoutGap="0px" class="project-content">
+                    <div fxFlex="0 1 calc(100% - 0px)">
+                        <mat-accordion>
+                            <mat-expansion-panel [expanded]="showDetailVisible" hideToggle>
+                                <css-project-filter *ngIf="showDetailVisible && !pinned" [model]="project" [modelFormGroup]="modelFormGroup"
+                                                    [comparisonVersion]="project.selectedComparisonVersion"
+                                                    (onInputFieldDataChanged)="onValueChanged($event)"
+                                                    [isSubprojects]="false"
+                                                    [shouldResetForm]="shouldResetForm"
+                                                    (formResetEvent)="formResetComplete($event)"
+                                                    (hasErrorEvent)="onError($event)">
+                                </css-project-filter>
+                            </mat-expansion-panel>
+                        </mat-accordion>
+
+                        <!-- summary session -->
+                        <css-planning-table [comparisonVersion]="project.selectedComparisonVersion"
+                                            [detailValueVisible]="showDetailVisible && !pinned"
+                                            [dataSource]="dataSource"
+                                            [isSubprojects]="false">
+                        </css-planning-table>
+
+                        <!-- show more -->
+                        <div *ngIf="!pinned" fxLayoutGap="20px" class="button-row more-button">
+                            <button [disableRipple]="true" mat-button class="tertiary-nm" (click)="toggleDetailsRows()">{{toogleButtonLabel}}</button>
+                        </div>
+
+                    </div>
+
+                    <div *ngIf="pinned" fxFlex="0 1 calc(12% - 0px)" class="pinned-project-actions">
+                        <css-project-actions
+                                (onDiscardClickedEvent)="onDiscardButtonClicked()"
+                                (onSaveClickedEvent)="onSaveButtonClicked()"
+                                (onApprovalClickedEvent)="onApprovalButtonClicked()"
+                                [approvalButtonDisabled]="isApprovalButtonDisabled"
+                                [approvalButtonVisible]="isApprovalButtonVisible"
+                                [buttonsDisabled] = "areButtonsDisabled"
+                                [buttonsAccess]="areButtonsAvailable"
+                                [pinned]="pinned"
+                        >
+                        </css-project-actions>
+                    </div>
+                </div>
+                <!-- end content row -->
+            </div>
+        </div>
+    </div>
+</div>
+
+

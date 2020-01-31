@@ -1,0 +1,28 @@
+.project-actions {
+  text-align: right;
+  vertical-align: top;
+  padding: 0;
+
+  .button-row {
+    display: inline;
+
+    .Bosch-IC-options {
+      transform: rotate(90deg);
+      font-size: 35px;
+      font-weight: 700;
+      top: 10px;
+      padding: 0 0;
+      min-width: 47px;
+    }
+  }
+}
+
+.action_button {
+  min-width: 100px;
+  margin-top: 0px;
+}
+
+
+:host ::ng-deep .mat-menu-panel {
+  margin-top: 4px;
+}

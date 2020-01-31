@@ -1,0 +1,234 @@
+<div class="project-filter-wrapper" [style.padding]="paddingStyle ? paddingStyle : ''" fxLayout="row wrap" fxLayout.md="column" fxLayoutGap="20px" fxLayout.xs="column">
+    <div fxLayout="column" fxFlex="0 1 calc(100% - 20px)" fxLayoutGap="20px">
+
+        <!-- Control fields Session -->
+        <form [formGroup]="modelFormGroup">
+
+
+            <!-- Control fields value -->
+            <div fxLayout="row wrap" fxLayout.md="column" fxLayout.xs="column" fxLayoutGap="20px">
+                <div class="startPAO" fxLayout="column" fxFlex="0 1 calc(11% - 20px)">
+                    <div fxLayout="row wrap">
+                        <div class="text-label text-label-l1">
+                            <label>Start PAO</label>
+                        </div>
+                        <i class="Bosch-IC-info-i info-icon" rbPopover [content]=getEMText(subprojectEM.START_PAO)></i>
+                    </div>
+                    <span class="disabled-text" *ngIf="isReadOnly">{{startPAOValue}}</span>
+                    <mat-form-field *ngIf ="!isReadOnly" floatLabel="always" class="compact">
+                        <mat-label></mat-label>
+                        <input name="startPAO" matInput placeholder="MM.YYYY" class="date-picker-align" formControlName="startPAO"
+                               [(ngModel)]="startPAOValue" (keydown)="onKeydown($event)" (change)="inputValueChanged($event)"
+                               (blur)="dataValueChanged(startPAOChangeEvent,modelFormGroup.controls['startPAO'])">
+                        <input matInput [(ngModel)]="model.startPAO" [matDatepicker]="pickerStartPAO" placeholder="MM.YYYY" hidden="hidden"
+                               [formControl]="startPAODate" [min]="minDate" [max]="maxDate">
+                        <mat-datepicker-toggle matSuffix [for]="pickerStartPAO"></mat-datepicker-toggle>
+                        <mat-datepicker startView="year"
+                                        [calendarHeaderComponent]="monthHeader"
+                                        (monthSelected)="startPAODateChanged($event, pickerStartPAO)"
+                                        #pickerStartPAO></mat-datepicker>
+                        <mat-error *ngIf="!modelFormGroup.controls['startPAO'].valid">
+                            Invalid date! Please insert a valid date.
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div class="endPAO" fxLayout="column" fxFlex="0 1 calc(11% - 20px)">
+                    <div fxLayout="row wrap">
+                        <div class="text-label text-label-l1">
+                            <label>End PAO</label>
+                        </div>
+                        <i  class="Bosch-IC-info-i info-icon" rbPopover [content]=getEMText(subprojectEM.END_PAO)></i>
+                    </div>
+                    <span class="disabled-text" *ngIf="isReadOnly">{{endPAOValue}}</span>
+                    <mat-form-field *ngIf ="!isReadOnly" floatLabel="always" class="compact">
+                        <mat-label></mat-label>
+                        <input name="endPAO" matInput placeholder="MM.YYYY" formControlName="endPAO" class="date-picker-align"
+                               [(ngModel)]="endPAOValue" (keydown)="onKeydown($event)" (change)="inputValueChanged($event)"
+                               (blur)="dataValueChanged(endPAOChangeEvent,  modelFormGroup.controls['endPAO'])">
+                        <input matInput  [(ngModel)]="model.endPAO" [matDatepicker]="pickerEndPAO" placeholder="MM.YYYY" hidden="hidden"
+                               [formControl]="endPAODate" [min]="minDate" [max]="maxDate">
+                        <mat-datepicker-toggle matSuffix [for]="pickerEndPAO"></mat-datepicker-toggle>
+                        <mat-datepicker startView="year"
+                                        [calendarHeaderComponent]="monthHeader"
+                                        (monthSelected)="endPAODateChanged($event, pickerEndPAO)"
+                                        #pickerEndPAO></mat-datepicker>
+                        <mat-error *ngIf="!modelFormGroup.controls['endPAO'].valid">
+                            Invalid date! Please insert a valid date.
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div class="otpRate" fxLayout="column" fxFlex="0 1 99px">
+                    <div fxLayout="row wrap">
+                        <div class="text-label text-label-l1">
+                            <label>OTP Rate</label>
+                        </div>
+                        <i  class="Bosch-IC-info-i info-icon" rbPopover [content]=getEMText(subprojectEM.OTP_RATE)></i>
+                    </div>
+                    <span class="disabled-text" *ngIf="isReadOnly">{{!this.model.otpRate ? defaultValue :model.otpRate | localeNumber:'1.0-1'}}</span>
+                    <mat-form-field *ngIf="!isReadOnly" class="percent-suffix">
+                        <input name="otpRate" type="text" class="no-spinners" matInput [(ngModel)]="model.otpRate" [value]="model.otpRate | localeNumber:'1.0-1'"
+                               formControlName="otpRate" (keydown)="onKeydown($event)"
+                               (change)="inputValueChanged($event)"
+                               (blur)="dataValueChanged(otpRateChangeEvent, modelFormGroup.controls['otpRate'], $event )">
+                        <span matSuffix>%</span>
+                        <mat-error *ngIf="modelFormGroup.controls['otpRate'].hasError('min')">
+                            It is not allowed to enter negative OTP interest rates.
+                        </mat-error>
+                        <mat-error *ngIf="modelFormGroup.controls['otpRate'].hasError('max') || modelFormGroup.controls['otpRate'].hasError('float')">
+                            {{otpPAORateErrorMessage}}
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div class="paoRate" fxLayout="column" fxFlex="0 1 99px">
+                    <div fxLayout="row wrap">
+                        <div class="text-label text-label-l1" >
+                            <label>PAO Rate</label>
+                        </div>
+                        <i  class="Bosch-IC-info-i info-icon" rbPopover [content]=getEMText(subprojectEM.PAO_RATE)></i>
+                    </div>
+                    <span class="disabled-text" *ngIf="isReadOnly">{{!this.model.paoRate ? defaultValue :model.paoRate | localeNumber:'1.0-1'}}</span>
+                    <mat-form-field *ngIf="!isReadOnly" class="percent-suffix">
+                        <input name="paoRate" title="" type="text" class="no-spinners" matInput [(ngModel)]="model.paoRate" [value]="model.paoRate | localeNumber:'1.0-1'"
+                               formControlName="paoRate" (keydown)="onKeydown($event)"
+                               (change)="inputValueChanged($event)"
+                               (blur)="dataValueChanged(paoRateChangeEvent,  modelFormGroup.controls['paoRate'], $event )">
+                        <span matSuffix>%</span>
+                        <mat-error *ngIf="modelFormGroup.controls['paoRate'].hasError('min')">
+                            It is not allowed to enter negative PAO interest rates.
+                        </mat-error>
+                        <mat-error *ngIf="modelFormGroup.controls['paoRate'].hasError('max') || modelFormGroup.controls['paoRate'].hasError('float')">
+                            {{otpPAORateErrorMessage}}
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div class="contractSigning" fxLayout="column" fxFlex="0 1 calc(6% - 20px)">
+                    <div fxLayout="row wrap">
+                        <div class="text-label text-label-l1">
+                            <label>Year of Contract Signing</label>
+                        </div>
+                        <i class="Bosch-IC-info-i info-icon" rbPopover [content]=getEMText(subprojectEM.CONTRACT_SIGNING)></i>
+                    </div>
+                    <span class="disabled-text" *ngIf="isReadOnly">{{!this.model.contractSigning ? defaultValue :model.contractSigning}}</span>
+                    <mat-form-field *ngIf="!isReadOnly" floatLabel="always" class="compact">
+                        <mat-label></mat-label>
+                        <input name="contractSigning" matInput placeholder="YYYY" class="date-picker-align" formControlName="contractSigning"
+                               [(ngModel)]="model.contractSigning" (keydown)="onKeydown($event)" (change)="inputValueChanged($event)"
+                               (blur)="dataValueChanged(contractualSigningChangeEvent, modelFormGroup.controls['contractSigning'])">
+                        <input matInput [ngModel]="yearOfContractSigning" [min]="minDate" [max]="maxDate" [matDatepicker]="pickerSigningContract" hidden="hidden" [formControl]="contractSigningDate">
+                        <mat-datepicker-toggle matSuffix [for]="pickerSigningContract"></mat-datepicker-toggle>
+                        <mat-datepicker startView="multi-year"
+                                        [calendarHeaderComponent]="yearHeader"
+                                        (yearSelected)="contractSigningDateChanged($event,pickerSigningContract)"
+                                        #pickerSigningContract></mat-datepicker>
+                        <mat-error *ngIf="!modelFormGroup.controls['contractSigning'].valid ||
+                           (isSubprojects && !model.contractSigning && (model.contractualPAO ||model.contractualOTP))">
+                            {{!modelFormGroup.controls['contractSigning'].valid ? 'Invalid year! Please insert a valid year.' : '*Required'}}
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div class="contractual-otp" fxLayout="column" fxFlex="0 1 130px">
+                    <div fxLayout="row wrap">
+                        <div class="text-label text-label-l1" fxLayoutGap="10px">
+                            <label>Contractual Agreed Net OTP</label>
+                        </div>
+                        <i  class="Bosch-IC-info-i info-icon" rbPopover [content]=getEMText(subprojectEM.CONTRACTUAL_AGREED_OTP)></i>
+                    </div>
+                    <span class="disabled-text" *ngIf="isReadOnly">{{!this.model.contractualOTP ? defaultValue :model.contractualOTP | localeNumber:'1.0-0'}}</span>
+                    <mat-form-field floatLabel="never" *ngIf="!isReadOnly" class="input">
+                        <input matInput placeholder="Enter value" type="text" name="contractualOTP" maxlength="15" min=0 class="no-spinners" [value]="model.contractualOTP  | localeNumber:'1.0-0'" *ngIf="(model.contractSigning && modelFormGroup.controls['contractSigning'].valid && isSubprojects) || !isSubprojects"
+                               formControlName="contractualOTP" (keydown)="onKeydown($event)"  (change)="inputValueChanged($event)"
+                               (paste)="inputValuePasted($event)"
+                               (blur)="dataValueChanged(contractualAgreeOTP, modelFormGroup.controls['contractualOTP'], $event)">
+                        <input type="text" class="no-spinners" matInput [value]="model.contractualOTP  | localeNumber:'1.0-0'" *ngIf="(!model.contractSigning || !modelFormGroup.controls['contractSigning'].valid) && isSubprojects" [disabled]="true">
+                        <mat-error *ngIf="modelFormGroup.controls['contractualOTP'].hasError('int')">
+                            Invalid entry. Please insert valid value!
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div class="contractual-pao" fxLayout="column" fxFlex="0 1 130px">
+                    <div fxLayout="row wrap">
+                        <div class="text-label text-label-l1" fxLayoutGap="10px">
+                            <label>Contractual Agreed Net PAO</label>
+                        </div>
+                        <i class="Bosch-IC-info-i info-icon" rbPopover [content]=getEMText(subprojectEM.CONTRACTUAL_AGREED_PAO)></i>
+                    </div>
+                    <span class="disabled-text" *ngIf="isReadOnly">{{!this.model.contractualPAO ? defaultValue :model.contractualPAO | localeNumber:'1.0-0'}}</span>
+                    <mat-form-field floatLabel="never" *ngIf="!isReadOnly" class="input">
+                        <input matInput placeholder="Enter value" type="text" name="contractualPAO" maxlength="15" min=0 class="no-spinners" [value]="model.contractualPAO | localeNumber:'1.0-0'" *ngIf="(model.contractSigning && modelFormGroup.controls['contractSigning'].valid && isSubprojects) || !isSubprojects"
+                               formControlName="contractualPAO" (keydown)="onKeydown($event)" (change)="inputValueChanged($event)"
+                               (paste)="inputValuePasted($event)"
+                               (blur)="dataValueChanged(contractualAgreePAO, modelFormGroup.controls['contractualPAO'], $event)">
+                        <input type="text" class="no-spinners" matInput [value]="model.contractualPAO | localeNumber:'1.0-0'" *ngIf="(!model.contractSigning || !modelFormGroup.controls['contractSigning'].valid) && isSubprojects" [disabled]="true">
+                        <mat-error *ngIf="modelFormGroup.controls['contractualPAO'].hasError('int')">
+                            Invalid entry. Please insert valid value!
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+                <!-- visible only on subprojects -->
+                <div class="invoice-customer" fxLayout="column" fxFlex="0 1 calc(16% - 20px)" *ngIf="isSubprojects">
+                    <div fxLayout="row wrap">
+                        <div class="text-label text-label-l1" fxLayoutGap="10px">
+                            <label>Invoice Customer</label>
+                        </div>
+                        <i class="Bosch-IC-info-i info-icon" rbPopover [content]=getEMText(subprojectEM.INVOICE_CUSTOMER)></i>
+                    </div>
+                    <span class="disabled-text" *ngIf="!hasWritePermission">{{!getDisplayValue(model.invoiceCustomer) ? defaultValue :getDisplayValue(model.invoiceCustomer)}}</span>
+                    <mat-form-field *ngIf="hasWritePermission">
+                        <input name="invoiceCustomer" class="form-data-picker disable-input" formControlName="invoiceCustomer" [value]="getDisplayValue(model.invoiceCustomer)" matInput readonly=true placeholder="">
+                        <mat-icon class="Bosch-IC-down form-data-picker disable-input search-dp" matSuffix (click)="dataPickerForInvoiceCustomer(model)"></mat-icon>
+                        <mat-error *ngIf="modelFormGroup.controls['invoiceCustomer'].hasError('required')">
+                            Required
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div class="special-sale-comp-code" fxLayout="column" fxFlex="0 1 calc(15% - 20px)"  *ngIf="isSubprojects">
+                    <div fxLayout="row wrap">
+                        <div class="text-label text-label-l1" fxLayoutGap="10px">
+                            <label>Special Sales Company Code</label>
+                        </div>
+                        <i class="Bosch-IC-info-i info-icon" rbPopover [content]=getEMText(subprojectEM.SPECIAL_SALES_COMPANY_CODE)></i>
+                    </div>
+                    <span class="disabled-text" *ngIf="!hasWritePermission">{{!getDisplayValue(model.specialSaleCompCode) ? defaultValue :getDisplayValue(model.specialSaleCompCode)}}</span>
+                    <mat-form-field *ngIf="hasWritePermission">
+                        <input class="form-data-picker disable-input" formControlName="specialSaleCompCode" [value]="getDisplayValue(model.specialSaleCompCode)" matInput readonly=true placeholder="">
+                        <mat-icon class="Bosch-IC-down form-data-picker disable-input search-dp" matSuffix (click)="dataPickerForCompany(model)"></mat-icon>
+                        <mat-error *ngIf="modelFormGroup.controls['specialSaleCompCode'].hasError('required')">
+                            Required
+                        </mat-error>
+                    </mat-form-field>
+
+                </div>
+
+                <div class="currency" fxLayout="column" fxFlex="0 1 85px" *ngIf="isSubprojects">
+                    <div fxLayout="row wrap">
+                        <div class="text-label text-label-l1">
+                            <label>Currency</label>
+                        </div>
+                        <i class="Bosch-IC-info-i info-icon" rbPopover [content]=getEMText(subprojectEM.CURRENCY)></i>
+                    </div>
+                    <span class="disabled-text" *ngIf="!hasWritePermission">{{getCurrencyCode(selectedSubprojectCurrencyValue)}}</span>
+                    <mat-form-field *ngIf="hasWritePermission">
+                        <mat-select #currencySelect [(ngModel)]="selectedSubprojectCurrencyValue" formControlName="selectedCurrencyValue" (selectionChange)="onCurrencyChanged($event.value)">
+                            <mat-option *ngFor="let item of allSubprojectCurrencies" [value]="item.curId">
+                                {{item.code}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="modelFormGroup.controls['selectedCurrencyValue'].hasError('required')">
+                            Required
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+            </div>
+        </form>
+
+    </div>
+</div>

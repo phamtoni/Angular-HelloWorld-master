@@ -1,0 +1,90 @@
+.project-info-wrapper {
+  .project-actions {
+    align-items: center;
+  }
+
+  .project-info-container {
+    padding: 20px 10px 10px 10px;
+  }
+
+  .avatar {
+    border-width: 0px;
+    width: 48px;
+    height: 48px;
+    font-size: 48px;
+    margin-right: 5px;
+  }
+
+  .avatar-img {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+  }
+
+  .email {
+    text-decoration: none;
+    color: black;
+  }
+
+  .bosch-icon {
+    font-family: 'Bosch-Icon';
+    font-weight: 400;
+    font-style: normal;
+    font-size: 24px;
+  }
+
+  .icon-small {
+    width: 25px;
+    height: 25px;
+  }
+
+
+  .customer-group .text-label {
+    width: 167px;
+  }
+
+  .comparison-version .text-label,
+  .comparison-version .mat-select {
+    width: 120px;
+  }
+
+  .comparison-version .text-label {
+    margin-top: -22px;
+  }
+
+  .currency .text-label,
+  .currency .mat-form-field {
+    width: 100px;
+  }
+
+  .project-status {
+    .text-label {
+      width: 169px;
+    }
+  }
+
+  .pid .text-label {
+    width: 60px;
+  }
+
+  .contractual-otp .text-label,
+  .contractual-pao .text-label {
+    width: 114px;
+  }
+
+  .contractual-otp, .contractual-pao {
+    margin-top: -22px;
+  }
+
+  .responsible {
+    width: 226px;
+  }
+
+  .mat-select {
+    height: 44px;
+  }
+
+  .monthly-rate-warning {
+    width: 42%;
+  }
+}

@@ -1,0 +1,17 @@
+<div fxLayout="row wrap" fxLayoutGap="20px" >
+    <div fxFlex="0 1 100%" class="project-actions">
+        <div class="button-row" *ngIf="!pinned">
+            <button mat-button *ngIf="isApprovalButtonVisible" [disabled]="isApprovalButtonDisabled" class="secondary-nm action_button" (click)="onApprovalButtonClicked()">Approval</button>
+            <button mat-button *ngIf="areButtonsAvailable" [disabled]="areButtonsDisabled" class="secondary-nm action_button" (click)="onDiscardButtonClicked()">Discard</button>
+            <button mat-button *ngIf="areButtonsAvailable" [disabled]="areButtonsDisabled" class="primary-nm action_button" (click)="onSaveButtonClicked()">Save</button>
+        </div>
+        <div class="button-row" fxLayoutGap="-5px" *ngIf="pinned">
+            <button mat-button  *ngIf="areButtonsAvailable"[disabled]="areButtonsDisabled" class="primary-nm action_button" (click)="onSaveButtonClicked()">Save</button>
+            <button mat-button [matMenuTriggerFor]="threeDotsBtn" class="Bosch-IC-options"></button>
+            <mat-menu #threeDotsBtn="matMenu">
+                <button mat-menu-item *ngIf="areButtonsAvailable" [disabled]="areButtonsDisabled" (click)="onDiscardButtonClicked()">Discard</button>
+                <button mat-menu-item [disabled]="isApprovalButtonDisabled" *ngIf="isApprovalButtonVisible"  (click)="onApprovalButtonClicked()">Approval</button>
+            </mat-menu>
+        </div>
+    </div>
+</div>

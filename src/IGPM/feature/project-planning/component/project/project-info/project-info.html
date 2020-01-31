@@ -1,0 +1,152 @@
+<div class="project-info-wrapper" fxLayout="row wrap" fxLayout.md="column" fxLayout.xs="column" fxLayoutGap="20px">
+    <div fxLayout="column" fxFlex="0 1 100%">
+
+        <!-- header row -->
+        <div fxLayout="row wrap" fxLayout.md="column" fxLayout.xs="column" fxLayoutGap="20px">
+            <div fxFlex="0 1 70%" class="text-heading-h4">
+                Project {{project.mcrId}} ({{project && project.prjName != '' ? project.prjName : '...' }})
+            </div>
+
+            <div fxFlex="0 1 calc(30% - 20px)" class="project-actions">
+                <css-project-actions
+                        (onDiscardClickedEvent)="onDiscardButtonClicked()"
+                        (onSaveClickedEvent)="onSaveButtonClicked()"
+                        (onApprovalClickedEvent)="onApprovalButtonClicked()"
+                        [approvalButtonDisabled]="isApprovalButtonDisabled"
+                        [approvalButtonVisible]="isApprovalButtonVisible"
+                        [buttonsDisabled] = "areButtonsDisabled"
+                        [buttonsAccess]="areButtonsAvailable"
+                >
+                </css-project-actions>
+            </div>
+        </div>
+        <!-- end header row -->
+
+        <div fxLayout="row wrap" fxLayoutGap="20px"
+             *ngIf="isMonthlyRateMissing && isActualVersionSelected">
+            <css-inline-message-component class="monthly-rate-warning" [messages]="rateNotFoundErrorMessages"></css-inline-message-component>
+        </div>
+
+        <!-- content row -->
+        <div fxLayout="row wrap" fxLayout.md="column" fxLayout.xs="column" fxLayout.xs="column" fxLayoutGap="20px" class="project-info-container">
+            <div fxFlex="0 1 calc(100% - 20px)">
+
+                <!-- project overview value row -->
+                <div fxLayout="row wrap" fxLayout.md="column" fxLayout.xs="column" fxLayout.xs="column" fxLayoutGap="20px">
+                    <div class="project-status" fxFlex="0 1 128px">
+                        <div class="text-label text-label-l1">
+                            <label>Status</label>
+                        </div>
+                        <div class="text-value text-heading-h6">
+                            <label>{{project.prjStatus | uppercase}}</label>
+                        </div>
+                    </div>
+
+                    <div class="customer-group" fxFlex="0 1 150px">
+                        <div class="text-label text-label-l1">
+                            <label>Customer Group</label>
+                        </div>
+                        <div class="text-value text-heading-h6">
+                            <label>{{project.customerGroup}}</label>
+                        </div>
+                    </div>
+
+                    <div class="pid" fxFlex="0 1 60px">
+                        <div class="text-label text-label-l1">
+                            <label>P-ID</label>
+                        </div>
+                        <div class="text-value text-heading-h6">
+                            <label>{{project.pid}}</label>
+                        </div>
+                    </div>
+
+                    <div class="responsible" fxFlex="0 1 226px">
+                        <div class="text-label text-label-l1">
+                            <label>Project Responsible</label>
+                        </div>
+                        <div fxLayout="row wrap" fxLayoutGap="20px">
+                            <div class="avatar" fxFlex="0 1 calc(12% - 20px)">
+                                <img *ngIf="project.responsiblePerson.email" class="avatar-img" src="https://connect.bosch.com/profiles/photo.do?email={{project.responsiblePerson.email}}">
+                                <i *ngIf="!project.responsiblePerson.email" class="Bosch-IC-user"></i>
+                            </div>
+                            <div fxFlex="0 1 calc(75% - 20px)">
+                                <div fxLayout="row wrap">
+                                    <div fxLayout="column">
+                                        <div class="text-value text-heading-h6">
+                                            <label>{{project.responsiblePerson.surName}} {{project.responsiblePerson.firstName}}</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div fxLayout="row wrap" fxLayoutGap="5px">
+                                    <div fxFlex="0 1 calc(1% - 5px)" >
+                                        <div class="icon-small bosch-icon">
+                                            <a *ngIf="project.responsiblePerson.email" href="mailto:{{project.responsiblePerson.email | lowercase}}?subject=Regarding Project {{project.mcrId}}" class="email">
+                                                <i [ngClass]="['Bosch-IC', 'Bosch-IC-mail']"></i>
+                                            </a>
+                                            <i *ngIf="!project.responsiblePerson.email" [ngClass]="['Bosch-IC', 'Bosch-IC-mail']"></i>
+                                        </div>
+                                    </div>
+                                    <div fxFlex="0 1 calc(2% - 5px)">
+                                        <div class="icon-small">
+                                            <a *ngIf="project.responsiblePerson.email" [href]="domSanitizer.bypassSecurityTrustUrl('sip:' + (project.responsiblePerson.email | lowercase))">
+                                                <img src="assets/skype.svg">
+                                            </a>
+                                            <img *ngIf="!project.responsiblePerson.email" src="assets/skype.svg">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="contractual-otp" fxFlex="0 1 130px">
+                        <div class="text-label text-label-l1">
+                            <label>Total Contractual Agreed OTP</label>
+                        </div>
+                        <div class="text-value text-heading-h6">
+                            <label>{{project.totalContractualOTP != null ? (project.totalContractualOTP | localeNumber:'1.0-0') : "\u2015"}}</label>
+                        </div>
+                    </div>
+
+                    <div class="contractual-pao" fxFlex="0 1 130px">
+                        <div class="text-label text-label-l1">
+                            <label>Total Contractual Agreed PAO</label>
+                        </div>
+                        <div class="text-value text-heading-h6">
+                            <label>{{project.totalContractualPAO != null ? (project.totalContractualPAO | localeNumber:'1.0-0') : "\u2015"}}</label>
+                        </div>
+                    </div>
+
+                    <div class="comparison-version" fxFlex="0 1 130px">
+                        <div class="text-label text-label-l1">
+                            <label>Select Comparison Version</label>
+                        </div>
+                        <mat-select  (selectionChange)="onComparisonVersionChanged($event)" class="comparison-selection" [(ngModel)]="selectedComparisonValue">
+                            <mat-option *ngFor="let item of comparisonVersions" [value]="item.compId">
+                                {{item.compName}}
+                            </mat-option>
+                        </mat-select>
+                    </div>
+
+                    <div class="currency" fxFlex="0 1 85px">
+                        <div class="text-label text-label-l1">
+                            <label>Currency</label>
+                        </div>
+                        <mat-select [(ngModel)]="selectedCurrencyValue" (selectionChange)="onCurrencyChanged()">
+                            <mat-option *ngFor="let item of allCurrencies" [value]="item.curId">
+                                {{item.code}}
+                            </mat-option>
+                        </mat-select>
+                    </div>
+
+                </div>
+                <!-- end project overview value row -->
+
+            </div>
+
+
+        </div> <!-- end content row -->
+
+
+    </div>
+</div>
