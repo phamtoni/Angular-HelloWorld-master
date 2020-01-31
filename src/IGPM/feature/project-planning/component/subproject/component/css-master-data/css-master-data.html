@@ -1,0 +1,13 @@
+<!-- call the projects table with different model -->
+<css-project-filter [paddingStyle]="'0 0 0 10px'" [model]="cssMasterDataObj" [modelFormGroup]="modelFormGroup"
+                    [comparisonVersion]="comparisonVersion"
+                    (onInputFieldDataChanged)="dataModelChanged($event)"
+                    (changeEvent)="onValueChanged($event)"
+                    (hasErrorEvent)="onError($event)"
+                    (onInputFieldDataChanged)="onInputFieldDataChanged($event)"
+                    (onSubprojectCurrencyChangedEvent)="onSubprojectCurrencyChanged($event)"
+                    [subprojectCurrencies]="currencies"
+                    [isSubprojects]="true"
+                    [isReadOnly]="isReadOnly"
+                    [hasWritePermission]="hasWritePermission"
+></css-project-filter>
