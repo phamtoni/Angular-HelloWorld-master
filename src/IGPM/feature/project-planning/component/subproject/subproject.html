@@ -1,0 +1,40 @@
+<div #subprojectContent fxLayout="row" fxLayoutGap="10px" class="subproject-wrapper">
+    <div fxLayout="column" fxFlex="100%" class="top-border">
+
+        <div  class="subproject-content">
+            <div class="loading-indicator" *ngIf="isProgressStart">
+                <div class="loading-indicator__loader"></div>
+            </div>
+            <div class="blur-overlay" *ngIf="isProgressStart">
+            </div>
+            <div [style.height]="isContentVisible ? '100%' : 'calc(100vh - 15px - 64px)'" [ngClass]="{'blur': isProgressStart}">
+                <css-mcr-master-data *ngIf="isContentVisible" (showAllQG4ClickedEvent)="showAllQG4Clicked($event)" #mcrMasterDataComponent
+                                     [mcrMasterData]="subproject.mcrMasterData"
+                                     [cssMasterData]="subproject.cssMasterData"
+                                     [isQG4LoadingBinding]="isQG4Loading"
+                                     [approvalPermission]="approvalPermission"
+                                     [project]="project"
+                                     [isIFRS15Relevant]="isIFRS15Relevant"
+                                     (approveStartedEvent)="onApproveStarted($event)"
+                                     [isMonthlyRateMissing]="actualDataArrayError$ | async"
+                                     [isCurrencyMonthlyRateMissing]="subprojectActualError$ | async"
+                >
+                </css-mcr-master-data>
+                <css-css-master-data *ngIf="isContentVisible" [currencies]="currencies" [subprojectVersion]="subprojectVersion" #cssMasterDataComponent
+                                     [comparisonVersion]="project.selectedComparisonVersion"
+                                     [cssMasterData]="subproject.cssMasterData"
+                                     [hasWritePermission]="hasWritePermission"
+                                     [isReadOnly]="isReadOnly" (onChangeEvent)="onCssValueChanged($event)"
+                                     (onInputFieldDataChangedEvent)="onInputFieldDataChanged($event)"
+                                     (onSubprojectCurrencyChangedEvent)="onSelectedSubprojectCurrency($event)"
+                                     (hasErrorEvent)="onCssValueHasError($event)"></css-css-master-data>
+                <css-value-table *ngIf="isContentVisible" [version]="project.selectedComparisonVersion" [subprojectVersionData]="subprojectVersion"
+                                 (subprojectDataChangedEvent)="subprojectDataChanged($event)"
+                                 [isReadOnly]="isReadOnly" [pinned]="pinned"></css-value-table>
+                <css-subproject-last-change *ngIf="isContentVisible" [updateUser]="subproject.updUser" [updateDate]="subproject.lastChangeDate">
+                </css-subproject-last-change>
+            </div>
+
+        </div>
+    </div>
+</div>

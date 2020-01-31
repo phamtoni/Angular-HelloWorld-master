@@ -1,0 +1,27 @@
+.subproject-wrapper {
+  display: block;
+  position: relative;
+  margin-top: 1rem;
+
+  .subproject-content {
+    background-color: #ffffff;
+    padding: 5px 5px 5px 15px;
+    min-height: calc(100vh - 15px - 64px - 167px);
+
+    &.top-border {
+      box-sizing: border-box;
+      border-width: 5px;
+      border-style: solid;
+      border-color: #00a8b0;
+      border-left: 0px;
+      border-right: 0px;
+      border-bottom: 0px;
+      border-radius: 0px;
+      border-top-left-radius: 0px;
+      border-top-right-radius: 0px;
+      border-bottom-right-radius: 0px;
+      border-bottom-left-radius: 0px;
+    }
+  }
+}
+

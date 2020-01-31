@@ -1,0 +1,11 @@
+<!-- call projects planing table component with subprojects data-->
+<css-planning-table [comparisonVersion]="comparisonVersion"
+                    [detailValueVisible]="true"
+                    [dataSource]="dataSource"
+                    [isSubprojects]="true"
+                    [cssMasterData]="cssMasterData"
+                    (subprojectDataChangedEvent)="subprojectDataChanged($event)"
+                    [subprojectId]="subprojectId"
+                    [isReadOnly]="isReadOnly"
+                    [pinned]="pinned">
+</css-planning-table>

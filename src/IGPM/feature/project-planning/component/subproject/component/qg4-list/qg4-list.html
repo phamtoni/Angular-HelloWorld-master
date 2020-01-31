@@ -1,0 +1,27 @@
+<div class="text-value text-heading-h6 qg4-wrapper">
+    <div class="allQG4-panel">
+        <img class="qg4-arrow" src="assets/images/u938.png"/>
+        <div id="qg4-allQG4" class="allQG4" >
+            <div id="qg4-header" class="all-gg4-header" >
+                <span id="qg4-title">All IFRS15 Milestones</span>
+                <span (click)="onClose()" class="close-modal">X</span>
+            </div>
+            <div id="qg4-content" class="qg4-content">
+                <div class="loading-indicator loading-context-border" *ngIf="isQG4Loading">
+                    <div class="loading-indicator__loader"></div>
+                </div>
+                <ul id="qg4-ul" >
+                    <li id="qg4-li" fxLayout="column" *ngFor="let item of qg4Array">
+                        <div id="qg4-name-block" class="qg4-name">
+                            <span id="qg4-name" class="qg4-name" fxLayout="row">{{item.name}}</span>
+                        </div>
+                        <div id="qg4-date-block" class="qg4-date">
+                            <span id="qg4-date" class="qg4-date" fxLayout="row">{{item.date}}</span>
+                        </div>
+                    </li>
+                </ul>
+                <span *ngIf="!qg4Array && !isQG4Loading">No data found</span>
+            </div>
+        </div>
+    </div>
+</div>

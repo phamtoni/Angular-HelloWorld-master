@@ -1,0 +1,133 @@
+<div #mcrMasterDataContent fxLayout="row wrap" fxLayout.md="column" fxLayout.xs="column" fxLayoutGap="20px" class="mcr-master-data-wrapper">
+    <div fxFlex="0 1 calc(100% - 10px)">
+
+        <!-- header row -->
+        <div fxLayout="row wrap" fxLayout.md="column" fxLayout.xs="column" fxLayoutGap="20px">
+            <div fxFlex="0 1 70%">
+                <div class="text-heading-h4">
+                    Subproject {{mcrMasterData.mcrSubProjectId}} ({{mcrMasterData.subProjectName}})
+                </div>
+            </div>
+
+            <div *ngIf="isApproveButtonVisible" fxFlex="0 0 calc(30% - 20px)" class="subproject-action">
+                <button mat-button class="primary-nm action_button" (click)="onApproveButtonClicked()">Approval</button>
+            </div>
+        </div>
+        <!-- end header row -->
+
+        <!-- Warning Message for missing QG4 -->
+        <div fxLayout="row wrap"  fxLayoutGap="20px"
+             *ngIf="!mcrMasterData.nextQG4">
+            <css-inline-message-component class="qg4-warning"  [messages]="noQGC4Messages"></css-inline-message-component>
+        </div>
+        <!-- End warning Message for missing QGC4 -->
+
+        <div fxLayout="row wrap" fxLayoutGap="20px"
+             *ngIf="isMonthlyRateMissing && isActualVersionSelected">
+            <css-inline-message-component class="monthly-rate-warning" [messages]="rateNotFoundErrorMessages"></css-inline-message-component>
+        </div>
+
+        <!-- content row -->
+        <div fxLayout="row wrap" fxLayout.md="column" fxLayout.xs="column" fxLayout.xs="column" fxLayoutGap="20px" class="mcr-master-data-content">
+            <div fxFlex="0 1 calc(100% - 20px)">
+
+                <!-- mcr master data value row -->
+                <div fxLayout="row wrap" fxLayout.md="column" fxLayout.xs="column" fxLayout.xs="column" fxLayoutGap="20px">
+                    <div class="status" fxFlex="0 1 calc(7% - 20px)">
+                        <div class="text-label text-label-l1">
+                            <label>Status</label>
+                        </div>
+                        <div class="text-value text-heading-h6">
+                            <label>{{mcrMasterData.status}}</label>
+                        </div>
+                    </div>
+
+                    <div class="rbCustomer" fxFlex="0 1 calc(9% - 20px)">
+                        <div class="text-label text-label-l1">
+                            <label>RB Customer</label>
+                        </div>
+                        <div class="text-value text-heading-h6">
+                            <label>{{mcrMasterData.rbCustomer}}</label>
+                        </div>
+                    </div>
+
+                    <div class="acquisitionCustomer" fxFlex="0 1 calc(11% - 20px)">
+                        <div class="text-label text-label-l1">
+                            <label>Acquisition Customer</label>
+                        </div>
+                        <div class="text-value text-heading-h6">
+                            <label>{{mcrMasterData.accquisitionCustomer}}</label>
+                        </div>
+                    </div>
+
+                    <div class="gctCa" fxFlex="0 1 calc(9% - 20px)">
+                        <div fxLayout="row" fxLayoutGap="10px">
+                            <div class="text-label text-label-l1">
+                                <label>GCT/CA</label>
+                            </div>
+                            <i class="Bosch-IC-info-i info-icon" rbPopover [content]=getEMText(subprojectEM.GCT_CA)></i>
+                        </div>
+                        <div class="text-value text-heading-h6">
+                            <label>{{mcrMasterData.gctCa}}</label>
+                        </div>
+                    </div>
+
+                    <div class="profitCenter" fxFlex="0 1 calc(8% - 20px)">
+                        <div class="text-label text-label-l1">
+                            <label>BU/Profit center</label>
+                        </div>
+                        <div class="text-value text-heading-h6">
+                            <label>{{mcrMasterData.buAndProfitCenter}}</label>
+                        </div>
+                    </div>
+
+                    <div class="pdcl" fxFlex="0 1 calc(15% - 20px)">
+                        <div class="text-label text-label-l1">
+                            <label>PDCL Name</label>
+                        </div>
+                        <div class="text-value text-heading-h6">
+                            <label>{{mcrMasterData.pdcl}}</label>
+                        </div>
+                    </div>
+
+                    <div class="ifrs15" fxFlex="0 1 calc(12% - 20px)">
+                        <div fxLayout="row" fxLayoutGap="10px">
+                            <div class="text-label text-label-l1">
+                                <label>IFRS15 relevant</label>
+                            </div>
+                            <i class="Bosch-IC-info-i info-icon" rbPopover [content]=getEMText(subprojectEM.IFRS_RELEVANT)></i>
+                        </div>
+                        <div class="text-value text-heading-h6">
+              <span *ngIf="ifrsRevelant">
+                <i class="Bosch-IC-alert-success-filled checkbox-icon"></i>
+                <span class="info-icon-text">Yes</span>
+              </span>
+                            <label><p *ngIf="!ifrsRevelant">No</p></label>
+                        </div>
+                    </div>
+
+                    <div class="nextQGC4" fxFlex="0 1 calc(14% - 20px)">
+                        <div fxLayout="row" fxLayoutGap="10px">
+                            <div class="text-label text-label-l1">
+                                <label>Next IFRS15 Milestone</label>
+                            </div>
+                            <i class="Bosch-IC-info-i info-icon" rbPopover [content]=getEMText(subprojectEM.NEXT_QG4)></i>
+                        </div>
+                        <div class="text-value text-heading-h6 qg4-wrapper" *ngIf="mcrMasterData.nextQG4">
+                            <label class="">{{mcrMasterData.nextQG4}}</label>
+                            <br>
+                            <button id="showAllGG4Button" *ngIf="mcrMasterData.nextQG4" class="show-all-button" (click)="openDialog(mcrMasterData.mcrPrjId)">Show all IFRS15 Milestones</button>
+                            <css-qg4-list *ngIf="showQG4" (onCloseClickedEvent)="closeDialog()" [qg4Array]="mcrMasterData.allQG4"
+                                          [isQG4LoadingBinding]="isQG4Loading"></css-qg4-list>
+                        </div>
+                        <div class="gg4-missing" *ngIf="!mcrMasterData.nextQG4">
+                            <label>Missing!</label>
+                        </div>
+                    </div>
+                    <!-- end mcr master data value row -->
+
+                </div>
+            </div>
+        </div> <!-- end  sub content row -->
+    </div>
+</div>

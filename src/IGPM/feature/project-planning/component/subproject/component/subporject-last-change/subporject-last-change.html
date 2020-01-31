@@ -1,0 +1,8 @@
+<div class="last-update-wrapper">
+    <p *ngIf="updateDate || (updateDate && updateDate.toString().length != 0)">
+        Last Change: {{updateDate}} by {{updateUser}}
+    </p>
+    <p *ngIf="!updateDate || (updateDate && updateDate.toString().length == 0)">
+        Last Change:
+    </p>
+</div>

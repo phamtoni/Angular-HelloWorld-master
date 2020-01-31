@@ -1,0 +1,139 @@
+.mcr-master-data-wrapper {
+  background: #ffffff;
+
+  .subproject-action {
+    text-align: right;
+  }
+
+  .action_button {
+    min-width: 100px;
+    margin-top: 0px;
+  }
+
+  .text-heading-h4 {
+    font-weight: 300;
+    font-style: normal;
+    font-size: 24px;
+    color: #000000;
+    text-align: left;
+    line-height: 28px;
+    padding: 15px 0;
+    font-family: 'Bosch Sans Light', 'Bosch Sans';
+  }
+
+  .mcr-master-data-content {
+    padding: 0px 15px 15px 10px;
+
+    .status .text-label{
+      width: 128px
+    }
+
+    .ifrs15 .text-label {
+      width: 100px;
+    }
+
+    .text-label-l1 {
+      font-weight: 700;
+      font-style: normal;
+      color: #000000;
+      text-align: left;
+      font-size: 12px;
+      line-height: 30px;
+    }
+
+    .info-icon {
+      font-weight: 400;
+      font-style: normal;
+      font-size: 25px;
+    }
+
+    .info-icon:hover {
+      cursor: pointer;
+      color: #51BFDA;
+    }
+
+    .icon-small {
+      width: 25px;
+      height: 25px;
+    }
+
+    .icon-medium{
+      width: 35px;
+      height: 35px;
+    }
+
+    .comparison-selection {
+      width: 150px;
+    }
+
+    .currency-selection {
+      width: 100px;
+    }
+
+    .text-heading-h6 {
+      font-weight: 300;
+      font-style: normal;
+      line-height: 20px;
+      font-size: 14px;
+      color: #000000;
+      text-align: left;
+
+      .info-icon-text {
+        position: relative;
+        top: -6px;
+        left: 3px;
+      }
+    }
+
+    .qg4-wrapper {
+
+      .show-all-button {
+        text-align: left;
+        background: none;
+        border: none;
+        font-weight: 400;
+        font-style: normal;
+        color: #005691;
+        font-size: 14px;
+        padding: 0;
+      }
+
+      .show-all-button:hover {
+        cursor: pointer;
+      }
+
+    }
+
+    .gg4-missing {
+      font-family: 'Bosch Sans';
+      font-weight: 700;
+      font-style: normal;
+      font-size: 14px;
+      color: #FCAF17;
+      text-align: left;
+      line-height: 19px;
+    }
+
+    .checkbox-icon {
+      color: #78BE20;
+      border-width: 0;
+      left: 1249px;
+      top: 137px;
+      width: 29px;
+      height: 28px;
+      font-family: 'Bosch-Icon';
+      font-weight: 400;
+      font-style: normal;
+      font-size: 28px;
+    }
+  }
+
+  .qg4-warning{
+    width: 55%;
+  }
+
+  .monthly-rate-warning {
+    width: 43%;
+  }
+}
+

@@ -1,0 +1,73 @@
+.row-gap {
+  &.value-table-wrapper {
+    padding-bottom: 20px;
+
+    .header-cell-l2 {
+      opacity: 0.7;
+      font-weight: 700;
+      font-style: normal;
+      font-size: 14px;
+      color: #8F9091;
+      text-align: right;
+    }
+
+    tr.mat-header-row {
+      height: 45px;
+    }
+
+    th.mat-header-cell {
+      text-align: center;
+    }
+
+    td.mat-footer-cell {
+      text-align: center;
+    }
+
+    .mat-table .mat-cell {
+      text-align: center;
+    }
+
+    .header-cell-l1 {
+      border-bottom: 0px solid #bfc0c2 !important;
+      opacity: 0.7;
+      font-weight: 700;
+      font-style: normal;
+      font-size: 14px;
+      color: #000000;
+      text-align: center;
+    }
+
+    .border-right {
+      position: relative;
+    }
+
+    .border-right:after {
+      content: '';
+      height: 80%; //change this if you want smaller/bigger borders
+      width: 1px;
+
+      position: absolute;
+      right: 0;
+      top: 5px; // set a smaller height and center it, change this value
+
+      background-color: #bfc0c2; // The color of border
+    }
+
+    .mat-elevation-z8 {
+      box-shadow: none;
+    }
+
+    td.mat-footer-cell {
+      opacity: 0.8;
+      font-weight: 700;
+      font-style: normal;
+      font-size: 14px;
+      color: #000000;
+      text-align: center;
+    }
+
+    .mat-form-field-flex {
+      width: 70%;
+    }
+  }
+}
